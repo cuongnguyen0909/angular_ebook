@@ -1,0 +1,19 @@
+<div class="w-full min-h-screen">
+    <div class="w-full flex flex-col p-20 items-start">
+        <span class="flex items-start flex-col justify-start">
+            <p class="text-3xl font-bold">{{genre}}</p>
+        </span>
+        <div class="flex gap-6">
+            <div class="w-[300px] h-[300px] cursor-pointer" *ngFor="let book of listBooks; let i = index"
+                (click)="redirectToBookDetail(book._id)">
+                <span class="w-full">
+                    <img class="h-full object-cover border rounded-md" [src]="setUrlImage(book.thumb)"
+                        [alt]="book.title">
+                </span>
+                <div class="b-author">
+                    <span>{{book.author}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

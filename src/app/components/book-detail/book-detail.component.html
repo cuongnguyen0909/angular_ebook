@@ -1,0 +1,111 @@
+<div class="font-medium flex flex-col items-center justify-center w-screen m-auto">
+    <div class="w-[1100px] flex flex-col justify-center">
+        <div class="flex justify-center items-center pt-8">
+            <div class="flex gap-6">
+                <div class="w-[500px]">
+                    <div class="">
+                        <img [src]="setUrlImage(book?.thumb)" alt="" class="h-[420px] object-cover rounded-xl">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 h-[420px]">
+                    <div class="font-medium text-3xl">
+                        <span>{{book?.title}}</span>
+                    </div>
+                    <div class="">
+                        <span>by {{book?.author}}</span>
+                    </div>
+                    <div class="flex justify-start items-center tex-[14px] gap-4">
+                        <div class="flex gap-2">
+                            <div>
+                                <span *ngFor="let star of starList">
+                                    <i class="{{star}} text-[#ffd700]"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center italic">
+                            <span>{{book?.ratings?.length}} review(s)</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-between h-full">
+                        <span>
+                            <p>{{book.description}}</p>
+                        </span>
+                        <div class="flex gap-10 font-medium text-[16px] pt-4 text-white">
+                            <button
+                                class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md">Download</button>
+                            <button class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md"
+                                (click)="readingBook()">Read now</button>
+                            <button class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md"
+                                (click)="reviewNow()">REVIEW
+                                NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reviews -->
+    <div *ngIf="showComment">
+        <form method="put" (ngSubmit)="onSubmitComment()" [formGroup]="formComment">
+            <div class="min-w-[1100px] border p-6 mt-8 bg-gray-50">
+                <span class="text-2xl font-bold text-center">
+                    <p>Review</p>
+                </span>
+                <div class="flex justify-center">
+                    <ul class="list-inline rating-list" *ngFor="let star of stars" style="display: inline-block">
+                        <li (click)="countStar(star)" [ngClass]="{'selected': (star <= selectedValue)}">
+                            <i class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <textarea class="w-full border p-4 mt-4" rows="5" placeholder="Write your review here..."
+                        formControlName="comment"></textarea>
+                </div>
+                <div class="flex justify-end font-medium">
+                    <button type="submit" class="p-4 rounded-md flex bg-[#17A288] text-white">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div class="w-[1100px] min-h-[500px]  flex flex-col bg-gray-50 mt-8">
+            <div>
+                <span class="text-2xl font-medium">Reader reviews</span>
+            </div>
+            <div *ngIf="!book.ratings.length">
+                <div class="flex justify-center items-center">
+                    <span class="text-2xl italic">No reviews yet</span>
+                </div>
+            </div>
+            <div class="w-full pt-8">
+                <div class="w-full flex flex-col gap-10">
+                    <div class="flex flex-col" *ngFor="let rating of book?.ratings">
+                        <div class="flex gap-6">
+                            <div>
+                                <img src={{rating.ratingBy.avatar}} alt=""
+                                    class="w-[60px] h-[60px] object-cover rounded-full">
+                            </div>
+                            <div>
+                                <span class="flex gap-1">
+                                    <p>{{rating?.ratingBy?.name}}</p>
+                                    <span class="italic text-xs">{{formatDate(rating?.updatedAt)}}</span>
+                                </span>
+                                <span *ngFor="let star of renderStar(rating?.star)">
+                                    <span>
+                                        <i class="{{star}} text-[#ffd700]"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <span class="pt-2">
+                            <span>{{rating?.comment}}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

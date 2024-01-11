@@ -1,0 +1,44 @@
+<header *ngIf="!isReadingBook">
+    <div class="navbar-region">
+        <div class="left-area">
+            <div class="title" (click)="redirectToHome()">
+                <img class="cursor-pointer" src="http://localhost:4200/assets/images/books.png" alt="">
+                <h4>Reading Books Online</h4>
+            </div>
+           
+
+            <div class="search-area">
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="login-area" *ngIf="!userData" (click)="toggleLogin()">
+            <button id="login">Login</button>
+        </div>
+        <div *ngIf="userData" class="flex justify-center items-center font-medium">
+            <span>{{userData}}</span>
+            <span class="flex justify-center items-center hover:bg-gray-100 cursor-pointer" (click)="logout()">
+                <button>Log out</button>
+            </span>
+        </div>
+
+    </div>
+    <div class="header-background">
+        <div class="title">
+            Welcome to Reading Books Online
+        </div>
+        <div class="desc">
+            Where thousands of wonderful works await your discovery, anytime, anywhere. Immerse yourself in the magic of
+            each page, and experience the joy of reading at your fingertips.
+        </div>
+    </div>
+</header>
+<app-login></app-login>
+<app-register></app-register>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
