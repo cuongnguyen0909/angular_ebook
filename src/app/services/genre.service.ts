@@ -24,4 +24,19 @@ export class GenreService {
     return this.http.get(this.REST_API_SERVER, this.httpOptions);
   }
 
+  getGenreById(id: any): Observable<any> {
+    return this.http.get(`${this.REST_API_SERVER}/${id}`);
+  }
+
+  createGenre(data: any): Observable<any> {
+    return this.http.post(this.REST_API_SERVER, data);
+  }
+
+  updateGenre(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.REST_API_SERVER}/${id}`, data);
+  }
+
+  deleteGenre(id: any): Observable<any> {
+    return this.http.delete(`${this.REST_API_SERVER}/${id}`);
+  }
 }

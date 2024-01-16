@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AppService } from 'src/app/services/app.service';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -11,16 +13,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   isShowLoginForm: boolean = false;
-  isShowRegisterForm: boolean = true;
+  isShowRegisterForm: boolean = false;
   formRegister!: FormGroup;
   formVerifyEmail!: FormGroup;
   isVeirfyEmail: boolean = false;
+  messageVerifyEmail: String = '';
   toke: String = '';
   constructor(
     private appService: AppService,
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -35,33 +39,37 @@ export class RegisterComponent implements OnInit {
       token: ['', Validators.required]
     })
 
-    this.appService.showLogginForm.subscribe((res: any): any => {
+    this.appService.showRegiserForm.subscribe((res: any): any => {
       this.isShowRegisterForm = res;
     })
 
-    console.log(this.isShowRegisterForm)
   }
 
-
-  backToLogin() {
-    this.isShowLoginForm = true;
-    this.appService.sendStatusShowLoginForm(this.isShowLoginForm);
+  backToLogin = async () => {
+    await this.appService.sendStatusShowLoginForm(true);
+    await this.appService.sendStatusShowRegisterForm(false);
   }
 
-  backToHome() {
+  backToHome = async () => {
     this.isShowLoginForm = false;
-    this.router.navigate(['/home']);
+    await this.appService.sendStatusShowRegisterForm(false);
+    this.appService.showRegiserForm.subscribe((res: any): any => {
+      this.isShowRegisterForm = res;
+    })
+    // window.location.reload();
   }
 
   register(): any {
-    console.log(this.formRegister.value)
-    console.log(this.formRegister.invalid)
-    console.log(this.formRegister.valid)
-    this.authService.register(this.formRegister.value).subscribe((res: any): any => {
+    // console.log(this.formRegister.value)
+    // console.log(this.formRegister.invalid)
+    // console.log(this.formRegister.valid)
+    // this.spinner.show();
+    this.authService.register(this.formRegister.value).subscribe(async (res: any) => {
       if (res.status) {
+        // await this.spinner.hide();
         this.isVeirfyEmail = true;
         this.isShowRegisterForm = false;
-        this.appService.sendStatusShowRegisterForm(false);
+        await this.appService.sendStatusShowRegisterForm(false);
       }
     })
   }
@@ -70,10 +78,27 @@ export class RegisterComponent implements OnInit {
     console.log(this.formVerifyEmail.value)
     this.authService.finalRegister(this.formVerifyEmail.value.token).subscribe((res: any): any => {
       if (res.status) {
-        this.isVeirfyEmail = false;
-        this.isShowRegisterForm = false
-        this.appService.sendStatusShowLoginForm(true);
-        // this.router.navigate(['/login']);
+
+        return Swal.fire({
+          icon: 'success',
+          title: 'Register success',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+        }).then(result => {
+          if (result.isConfirmed) {
+            this.isVeirfyEmail = false;
+            this.isShowRegisterForm = false
+            this.appService.sendStatusShowLoginForm(true);
+          }
+        })
+      } else {
+        // this.messageVerifyEmail = 'Token is invalid';
+        return Swal.fire({
+          icon: 'error',
+          title: 'Token is invalid',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+        })
       }
     })
 

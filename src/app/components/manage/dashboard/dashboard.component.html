@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="content">
+        <div class="total-area">
+            <div class="total-books info">
+                <a [routerLink]="['/manage/admin/books']">
+                    <i class="fa-solid fa-book"></i>
+                    <span class="amount">{{bookList?.total}}</span>
+                    <span class="total">Total books</span>
+                </a>
+            </div>
+            <div class="total-genres info">
+                <a [routerLink]="['/manage/admin/genres']">
+                    <i class="fa-solid fa-table-list"></i>
+                    <span class="amount">{{genreList.data.length}}</span>
+                    <span class="total">Total genres</span>
+                </a>
+            </div>
+            <div class="total-users info">
+                <a [routerLink]="['/manage/admin/users']">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span class="amount">{{userList.total}}</span>
+                    <span class="total">Total users</span>
+                </a>
+            </div>
+        </div>
+        <div class="top-book-view">
+            <h4>Top 5 most viewed books </h4>
+            <div class="list-books">
+                <div class="book gap-2 cursor-pointer font-medium" *ngFor="let book of topList.books"
+                    (click)="bookDetail(book._id)">
+                    <img [src]="setUrlImg(book.thumb)" alt="">
+                    <span class="name">{{book.title}}</span>
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="author mt-[15px]">{{book.author}}</span>
+                        <span class="views">{{book.totalView}} <i class="fa-solid fa-eye"
+                                style="font-size: 13px; color: gold;"></i></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,7 +17,6 @@ export class BookDetailComponent {
   updatedAt!: any;
   value: number = 0; //addition of .5
   id!: any;
-  token!: any;
   book!: any;
   showComment: boolean = false;
   starList: string[] = [];
@@ -33,15 +32,14 @@ export class BookDetailComponent {
   ) { }
 
   readingBook() {
-    this.appService.sendStatusReadingBook(true);
+    // this.appService.sendStatusReadingBook(true);
+    this.appService.sendStatusShowHeader(false);
     this.router.navigate(['/reading-book']);
   }
 
   ngOnInit() {
-    // this.setStyleStar();
     this.id = this.route.snapshot.paramMap.get('bid');
     this.bookService.getBookById(this.id).subscribe((res) => {
-      // Xử lý dữ liệu sách nhận được từ API ở đây
       this.book = res.book;
       this.appService.sendBookData(this.book);
       this.value = this.book.totalRating || 0;
@@ -50,7 +48,6 @@ export class BookDetailComponent {
       console.log(this.value)
       console.log(this.book)
     })
-    this.token = localStorage.getItem('token');
     // console.log(this.book)
     // console.log(this.value)
     this.formComment = this.fb.group({
@@ -58,9 +55,8 @@ export class BookDetailComponent {
     })
   }
 
-
   formatDate(date: any) {
-    return moment(date).fromNow();
+    return moment(date).format('DD/MM/YYYY');
   }
 
   renderStar(number: any) {
@@ -85,11 +81,10 @@ export class BookDetailComponent {
   // thực hiện chức năng comment
   sendComment() {
     console.log(this.currentRating);
-
   }
 
   reviewNow(): any {
-    if (!this.token) {
+    if (!localStorage.getItem('token') && !localStorage.getItem('user')) {
       return Swal.fire({
         title: 'Please login to review',
         icon: 'warning',
@@ -124,5 +119,7 @@ export class BookDetailComponent {
     return this.serverUrl + image;
   }
 
-
+  download() {
+    window.open(`http://localhost:3000/ebooks/${this.book.fileReader}`, '_blank');
+  }
 }

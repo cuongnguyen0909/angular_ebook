@@ -1,0 +1,94 @@
+<div class="container ">
+    <div class="header">
+        <div class="search-area">
+            <input type="text" [(ngModel)]="searchText" placeholder="Search..." id="search-text"
+                aria-describedby="search-text" autofocus>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <button class="add" (click)="toggleAddGenre()"><i class="fa-solid fa-circle-plus"></i>Add Genre</button>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Thumb</th>
+                    <th>Control</th>
+                </tr>
+            </thead>
+            <tbody class="font-medium">
+                <tr
+                    *ngFor="let genre of listGenres| searchPipe: searchText | paginate : { itemsPerPage: 4, currentPage: page }; index as i">
+                    <td>{{genre?.title}}</td>
+                    <td>
+                        <img class="w-[200px]" [src]="setUrlImage(genre?.thumb)" alt="">
+                    </td>
+                    <td class="w-10">
+                        <div class="control flex items-center justify-center">
+                            <button (click)="toggleUpdateGenre(genre)"><i class="fa-solid fa-pen"></i></button>
+                            <button (click)="deleteGenre(genre._id)"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+
+<!-- component add genres -->
+<div class="add-genres font-medium" id="addGenreComponent">
+    <div class="overlay" (click)="removeAddGenre()">
+        <div class="content" (click)="clickIn($event)">
+            <div class="add-genre-box">
+                <h4>Add Genre</h4>
+                <div class="form-add">
+                    <form [formGroup]="formCreateGenre" (ngSubmit)="onCreateGenre()">
+                        <div class="info">
+                            <label>Title:</label>
+                            <input formControlName="title" type="text" required>
+                        </div>
+                        <div class="info">
+                            <label>Thumb:</label>
+                            <input type="file" enctype="multipart/form-data" (change)="selectImage($event)">
+                        </div>
+                        <div class="bnt-add-box">
+                            <button type="submit"><i class="fa-solid fa-circle-plus"></i>Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeAddGenre()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- component update genres -->
+<div class="update-genres font-medium" id="updateGenreComponent">
+    <div class="overlay" (click)="removeUpdateGenre()">
+        <div class="content" (click)="clickIn($event)">
+            <div class="update-genre-box">
+                <h4>Update Genre</h4>
+                <div class="form-update">
+                    <form [formGroup]="formUpdateGenre" (ngSubmit)="onUpdateGenre()">
+                        <div class="info">
+                            <label>Title:</label>
+                            <input formControlName="title" type="text" required>
+                        </div>
+                        <div class="info">
+                            <label>Thumb:</label>
+                            <input type="file" (change)="selectImage($event)" enctype="multipart/form-data">
+                        </div>
+                        <div class=" bnt-update-box">
+                            <button type="submit"><i class="fa-solid fa-circle-plus"></i>Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeUpdateGenre()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+    </div>
+</div>

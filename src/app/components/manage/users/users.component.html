@@ -1,0 +1,118 @@
+<div class="container font-medium">
+    <div class="header">
+        <div class="search-area">
+            <input type="text" [(ngModel)]="searchText" placeholder="Search..." id="search-text"
+                aria-describedby="search-text" autofocus>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <!-- <button class="add" (click)="toggleAddUser()"><i class="fa-solid fa-circle-plus"></i>Add User</button> -->
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Avatar</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Control</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let user of userList|searchPipe: searchText | paginate : { itemsPerPage: 5, currentPage: page }; index as i">
+                    <td>{{user?.name}}</td>
+                    <td class="flex justify-center items-center">
+                        <img class="w-[100px] h-[100px]" [src]="setUrlImage(user?.avatar || 'default avatar.png')"
+                            alt="avatar">
+                    </td>
+                    <td>{{user?.email}}</td>
+                    <td>{{user?.phone}}</td>
+                    <td>{{user?.role}}</td>
+                    <td>{{user?.status}}</td>
+                    <td class="w-10">
+                        <div class="control flex items-center justify-center">
+                            <button (click)="toggleUpdateUser(user)"><i class="fa-solid fa-pen"></i></button>
+                            <button (click)="deleteUser(user._id)"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+
+<!-- component add users-->
+<div class="add-users" id="addUserComponent">
+    <div class="overlay">
+        <div class="content">
+            <div class="add-user-box">
+                <h4>Add User</h4>
+                <div class="form-add">
+                    <form>
+                        <div class="info">
+                            <label>Name:</label>
+                            <input type="text" required>
+                        </div>
+                    </form>
+                    <div class="bnt-add-box">
+                        <button><i class="fa-solid fa-circle-plus"></i>Add</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="remove" (click)="removeAddUser()"><i class="fa-solid fa-xmark"></i></div> -->
+        </div>
+    </div>
+</div>
+
+<!-- component update users -->
+<div class="update-users font-medium" id="updateUserComponent">
+    <div class="overlay" (click)="removeUpdateUser">
+        <div class="content" (click)="clickIn($event)">
+            <div class="update-user-box">
+                <h4>Update User</h4>
+                <div class="form-update font-medium">
+                    <form [formGroup]="formUpdateUser" (ngSubmit)="onUpdateUser()">
+                        <div class="info">
+                            <label>Name:</label>
+                            <input formControlName="name" readonly type="text">
+                        </div>
+                        <div class="info">
+                            <label>Email:</label>
+                            <input formControlName="email" readonly type="text">
+                        </div>
+                        <div class="info">
+                            <label>Phone number:</label>
+                            <input formControlName="phone" readonly type="text">
+                        </div>
+                        <div class="info">
+                            <label>Role:</label>
+                            <select formControlName="role">
+                                <option *ngFor="let role of roles" [value]=" role">{{role}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="info">
+                            <label>Status:</label>
+                            <select formControlName="status">
+                                <option *ngFor="let status of status" [value]="status">{{status}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="bnt-update-box">
+                            <button><i class="fa-solid fa-circle-plus"></i>Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeUpdateUser()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+    </div>
+</div>

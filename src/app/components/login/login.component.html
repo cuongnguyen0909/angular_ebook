@@ -3,13 +3,14 @@
         <div class="form-login">
             <div class="rbo-info">
                 <div class="rbo-logo">
-                    <div class="logo cursor-pointer" (click)="backToHome()">
-                        <img src="http://localhost:4200/assets/images/books.png" alt="">
-                    </div>
+                    <a [routerLink]="['/home']" class="logo cursor-pointer w-[100px] h-[100px]" (click)="backToHome()">
+                        <img class="w-[100px] h-[100px]" src="http://localhost:4200/assets/images/logo.png" alt="">
+                    </a>
                 </div>
                 <div class="rbo-title">
                     Login
                 </div>
+
                 <div class="rbo-desc">
                     Access our library with a free account
                 </div>
@@ -22,6 +23,9 @@
                         <button type="submit">
                             Login
                         </button>
+                    </div>
+                    <div *ngIf="logginFailed" class="pt-2">
+                        <p class="text-red-600 italic text-[16px] font-medium">{{message}}</p>
                     </div>
                     <span class="flex justify-end items-end hover:text-sky-600 pt-6 tex-[14px] font-medium">
                         <span class="cursor-pointer" (click)="register()">Create an account</span>

@@ -1,0 +1,33 @@
+<div class="container font-medium" id="profileComponent">
+    <div class="overlay" (click)="removeProfile()">
+        <div class="content" (click)="clickIn($event)">
+            <div class="profile-box">
+                <div class="form-add">
+                    <h4>Profile</h4>
+                    <form [formGroup]="formUpdateProfile" (ngSubmit)="onUpdateProfile()">
+                        <div class="avata">
+                            <img src="{{ preview ? preview: setUrlImg(userData.avatar) }}" alt="">
+                            <div class="choose-file" (change)="selectFile($event)">
+                                <i class="fa-solid fa-plus"></i>
+                                <input type="file">
+                            </div>
+                        </div>
+                        <div class="info">
+                            <label>Name:</label>
+                            <input formControlName="name" type="text" required>
+                        </div>
+                        <div class="info">
+                            <label>Phone number:</label>
+                            <input formControlName="phone" type="text" required>
+                        </div>
+                        <div class="bnt-update-box pt-10">
+                            <button type="submit"><i class="fa-solid fa-pen-to-square"></i>Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeProfile()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+    </div>
+</div>

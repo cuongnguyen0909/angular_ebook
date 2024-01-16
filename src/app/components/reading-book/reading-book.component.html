@@ -1,8 +1,42 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-<div class="flex justify-center items-center" style="position: absolute; left: 50%; transform: translateX(-50%);">
-    <button (click)="clickPrev()">Prev</button>
-    <div id="area" class="border mt-8 p-4 flex justify-center items-center"></div>
-    <button (click)="clickNext()">Next</button>
+<!-- <div class="flex flex-col items-center justify-center relative font-medium">
+    <div class="pt-6 pl-4 absolute top-0 left-50%">
+        <select class="w-[400px] border border-black hover:shadow-input cursor-pointer" [(ngModel)]="selectedChapter"
+            (change)="displayChapter()">
+            <option *ngFor="let chapter of chapters; index as i" [value]="i">{{ chapter.label }}</option>
+        </select>
+    </div>
+    <div class="flex justify-center items-center absolute left-[200px] top-[50px] right-0">
+        <button (click)="clickPrev()">
+            <i class="fa-solid fa-caret-left text-sky-700 text-[70px] hover:text-sky-400"></i>
+        </button>
+        <div id="area" class="border border-black mt-8 p-4 flex justify-center items-center ml-25"></div>
+        <button (click)="clickNext()">
+            <i class="fa-solid fa-caret-right text-sky-700 text-[70px] hover:text-sky-400"></i>
+        </button>
+    </div>
+</div> -->
+<div class="container">
+    <div title="Back to home" class="back-home" (click)="backToHome()">
+        <i class="fa-solid fa-left-long hover:text-[#5e4f48]"></i>
+    </div>
+    <div class="content-rb">
+        <div class="chapter-area">
+            <span>Chapter:</span>
+            <select class="chapter" (change)="displayChapter()" [(ngModel)]="selectedChapter">
+                <option *ngFor="let chapter of chapters; index as i" [value]="i+2">{{ chapter.label }}</option>
+            </select>
+        </div>
+        <div class="read-book-area">
+            <button (click)="clickPrev()">
+                <i class="fa-solid fa-caret-left"></i>
+            </button>
+            <div id="area" class="read-book z-1000">
+                <div class="page-top"></div>
+                <div class="page-bottom"></div>
+            </div>
+            <button (click)="clickNext()">
+                <i class="fa-solid fa-caret-right"></i>
+            </button>
+        </div>
+    </div>
 </div>

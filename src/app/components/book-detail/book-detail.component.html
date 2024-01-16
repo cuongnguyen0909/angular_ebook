@@ -2,13 +2,13 @@
     <div class="w-[1100px] flex flex-col justify-center">
         <div class="flex justify-center items-center pt-8">
             <div class="flex gap-6">
-                <div class="w-[500px]">
+                <div class="w-[330px]">
                     <div class="">
                         <img [src]="setUrlImage(book?.thumb)" alt="" class="h-[420px] object-cover rounded-xl">
                     </div>
                 </div>
                 <div class="flex flex-col gap-4 h-[420px]">
-                    <div class="font-medium text-3xl">
+                    <div class="font-bold text-3xl">
                         <span>{{book?.title}}</span>
                     </div>
                     <div class="">
@@ -26,15 +26,15 @@
                             <span>{{book?.ratings?.length}} review(s)</span>
                         </div>
                     </div>
-                    <div class="flex flex-col justify-between h-full">
+                    <div class="flex flex-col justify-between h-full w-[860px]">
                         <span>
                             <p>{{book.description}}</p>
                         </span>
                         <div class="flex gap-10 font-medium text-[16px] pt-4 text-white">
-                            <button
-                                class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md">Download</button>
                             <button class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md"
-                                (click)="readingBook()">Read now</button>
+                                (click)="download()">DOWNLOAD</button>
+                            <button class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md"
+                                (click)="readingBook()">READ NOW</button>
                             <button class="bg-[#17A288] p-4 h-5 border flex justify-center items-center rounded-md"
                                 (click)="reviewNow()">REVIEW
                                 NOW</button>
@@ -63,7 +63,8 @@
                         formControlName="comment"></textarea>
                 </div>
                 <div class="flex justify-end font-medium">
-                    <button type="submit" class="p-4 rounded-md flex bg-[#17A288] text-white">
+                    <button type="submit" class=" rounded-md flex mt-[20px] bg-[#17A288] text-white"
+                        style="padding: 10px 20px;">
                         Submit
                     </button>
                 </div>
@@ -71,7 +72,7 @@
         </form>
     </div>
     <div>
-        <div class="w-[1100px] min-h-[500px]  flex flex-col bg-gray-50 mt-8">
+        <div class="w-[1300px] min-h-[300px] p-[40px] flex flex-col bg-gray-50 mt-8" style="border-radius: 12px;">
             <div>
                 <span class="text-2xl font-medium">Reader reviews</span>
             </div>
@@ -80,18 +81,19 @@
                     <span class="text-2xl italic">No reviews yet</span>
                 </div>
             </div>
-            <div class="w-full pt-8">
-                <div class="w-full flex flex-col gap-10">
+            <div class="w-full  border-b border-b-gray-200" style="padding: 30px 20px 20px; ;">
+                <div class="w-full flex flex-col gap-10"
+                    style="background-color: rgba(234, 235, 235, 0.466); padding: 10px; border-radius: 8px;">
                     <div class="flex flex-col" *ngFor="let rating of book?.ratings">
                         <div class="flex gap-6">
                             <div>
-                                <img src={{rating.ratingBy.avatar}} alt=""
+                                <img [src]="setUrlImage(rating?.ratingBy?.avatar || 'default avatar.png')" alt=""
                                     class="w-[60px] h-[60px] object-cover rounded-full">
                             </div>
                             <div>
                                 <span class="flex gap-1">
                                     <p>{{rating?.ratingBy?.name}}</p>
-                                    <span class="italic text-xs">{{formatDate(rating?.updatedAt)}}</span>
+                                    <span class="italic text-xs">{{formatDate(rating?.updateAt)}}</span>
                                 </span>
                                 <span *ngFor="let star of renderStar(rating?.star)">
                                     <span>
@@ -100,7 +102,7 @@
                                 </span>
                             </div>
                         </div>
-                        <span class="pt-2">
+                        <span class=" ml-[85px]">
                             <span>{{rating?.comment}}</span>
                         </span>
                     </div>

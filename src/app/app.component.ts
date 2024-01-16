@@ -11,6 +11,10 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.book = ePub('http://localhost:3000/ebooks/How_to_Transform_Your_Life.epub');
     this.book.renderTo('area', { width: 1000, height: 1000 }).display();
+    if (localStorage.getItem('isLoggedOut')) {
+      location.reload()
+      localStorage.removeItem('isLoggedOut')
+    }
   }
 
 }

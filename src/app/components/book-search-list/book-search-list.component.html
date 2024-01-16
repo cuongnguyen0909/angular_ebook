@@ -1,0 +1,64 @@
+<div class="w-full pb-20 " style="padding-bottom: 20px ;">
+    <div class="w-full flex flex-col pl-16 pt-10 gap-6">
+        <div class="flex justify-between">
+            <div class="flex-initial flex items-start flex-col justify-start">
+                <p class="text-3xl font-bold" *ngIf="searchQuery">
+                    Search result for "{{searchQuery}}"
+                </p>
+                <span>
+                    <p class="text-gray-600 text-sm">Found {{bookSearchList?.length}} results</p>
+                </span>
+            </div>
+            <form [formGroup]="selectForm">
+                <div class="flex-initial font-medium text-[20px]">
+                    Filter by:
+                    <select class="border" formControlName="genre" (change)="selectOption($event)">
+                        <option *ngFor="let genre of genreList" [selected]="genre.title||searchQuery"
+                            [value]="genre.title">{{genre.title}}
+                        </option>
+                    </select>
+                </div>
+            </form>
+            <div class="flex-initial pr-40">
+                <span class="flex gap-4 font-medium text-[20px]">
+                    Sort by:
+                    <span (click)="sortByRating()"
+                        class="hover:text-sky-400 hover:underline text-sky-700 cursor-pointer">
+                        rating
+                    </span>
+                    <span (click)="sortByView()" class="hover:text-sky-400 hover:underline text-sky-700 cursor-pointer">
+                        most view
+                    </span>
+                    <span (click)="sortByTitle()"
+                        class="hover:text-sky-400 hover:underline text-sky-700 cursor-pointer">
+                        title
+                    </span>
+                    <span (click)="sortByPublistYear()"
+                        class="hover:text-sky-400 hover:underline text-sky-700 cursor-pointer">
+                        publish year
+                    </span>
+                </span>
+
+            </div>
+        </div>
+        <div class="flex gap-20 w-[1200px] flex-wrap pb-20"
+            style="position: absolute; left: 50%; top:55%; transform: translateX(-50%);">
+            <div class="w-[220px] cursor-pointer" *ngFor="let book of bookSearchList; let i = index"
+                style="border: 1px solid rgb(175, 175, 175); display: flex; flex-direction: column; align-items: center; height: 380px; padding: 10px; box-shadow: 0px 0px 5px 2px rgb(202, 200, 200);">
+                <div class="w-[200px]">
+                    <div>
+                        <img class="h-[300px] w-[200px] object-cover border border-gray-100 rounded-md"
+                            [src]="setUrlImage(book.thumb)" [alt]="book.title" (click)="redirectToBookDetail(book._id)">
+                    </div>
+                    <div class="font-medium">
+                        <span class="cursor-pointer hover:underline text-sky-700"
+                            (click)="redirectToBookDetail(book._id)">"{{book?.title}}"</span>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <span class="text-xs font-medium italic text-black">--{{book?.author}}--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,31 +1,52 @@
-<header *ngIf="!isReadingBook">
+<header *ngIf="shouldShowHeader()">
     <div class="navbar-region">
         <div class="left-area">
             <div class="title" (click)="redirectToHome()">
-                <img class="cursor-pointer" src="http://localhost:4200/assets/images/books.png" alt="">
-                <h4>Reading Books Online</h4>
+                <img class="cursor-pointer mt-[4px]" src="http://localhost:4200/assets/images/logo.png" alt="">
+                <!-- <h4>Reading Books Online</h4> -->
             </div>
-           
 
-            <div class="search-area">
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button>
+            <div class="search-area text-black">
+                <div class="search-box placeholder:text-black placeholder:italic font-medium">
+                    <input (keyup.enter)="searchOnEnter($event)" [(ngModel)]="searchTextInput" type="text"
+                        placeholder="Search by genre, title, author, ...." style="border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;">
+                    <button (click)="clickSearch()">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <div class="login-area" *ngIf="!userData" (click)="toggleLogin()">
+        <div class="login-area" *ngIf="!userData" (click)="toggleLogin()" (click)="removeDropDownList()">
             <button id="login">Login</button>
         </div>
-        <div *ngIf="userData" class="flex justify-center items-center font-medium">
-            <span>{{userData}}</span>
-            <span class="flex justify-center items-center hover:bg-gray-100 cursor-pointer" (click)="logout()">
-                <button>Log out</button>
+        <div *ngIf="userData" class="user-info" (click)="dropDown() ">
+            <span style="color: #fff;" class="flex justify-center items-center gap-4">
+                <img class="w-[50px] h-[50px] rounded-full" [src]="setIUrlImg(userData.avatar || 'default avatar.png')"
+                    alt="">
+                <span>{{userData?.name}}</span>
             </span>
-        </div>
+            <div class="relative flex justify-center items-center ">
+                <i id="userI" class="fa-solid fa-sort-down" style="margin-left: 8px;"></i>
+            </div>
+            <div class="drop-down-list" [ngClass]="isAdmin ? 'admin' : 'user'">
+                <ul>
+                    <li class="hover:underline" (click)="toggleProfile()">
+                        <a>Profile</a>
+                    </li>
+                    <li class="hover:underline" (click)="toggleChangePassword()">
+                        <a>Change password</a>
+                    </li>
+                    <li class="hover:underline" *ngIf="role==='admin'" (click)="clickToAdmin()">
+                        <a routerLink="/manage/admin/dashboard">Admin</a>
+                    </li>
 
+                    <li class="hover:underline">
+                        <button (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="header-background">
         <div class="title">
@@ -37,8 +58,41 @@
         </div>
     </div>
 </header>
+<app-info-detail-user></app-info-detail-user>
 <app-login></app-login>
 <app-register></app-register>
+
+<!-- form change password -->
+<div class="changePassword font-medium" id="changePasswordComponent">
+    <div class="overlay" (click)="removeChangePassword()">
+        <div class="content" (click)="clickIn($event)">
+            <div class="change-box">
+                <div class="form-add">
+                    <h4>Change Password</h4>
+                    <form [formGroup]="formChangePassword" (ngSubmit)="onChangePassword()">
+                        <div class="info">
+                            <label>Old password</label>
+                            <input formControlName="password" type="password" required>
+                        </div>
+                        <div class="info">
+                            <label>New password</label>
+                            <input formControlName="newPassword" type="password" required>
+                        </div>
+                        <div class="info">
+                            <label>Confirm password</label>
+                            <input formControlName="reNewPassword" type="password" required>
+                        </div>
+                        <div class="bnt-update-box">
+                            <button type="submit"><i class="fa-solid fa-pen-to-square"></i>Change</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeChangePassword()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+    </div>
+</div>
 <div class="container">
     <router-outlet></router-outlet>
 </div>

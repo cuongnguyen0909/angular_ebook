@@ -1,0 +1,52 @@
+<div class="container font-medium">
+    <div class="header">
+        <div class="search-area">
+            <input type="text" [(ngModel)]="searchText" placeholder="Search..." id="search-text"
+                aria-describedby="search-text" autofocus>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <button class="add" (click)="toggleAddBook()"><i class="fa-solid fa-circle-plus"></i>Add Book</button>
+    </div>
+    <div class="table-container table-fixed">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Author</th>
+                    <th>Description</th>
+                    <th>Thumb</th>
+                    <th>Publish year</th>
+                    <th>Total Page</th>
+                    <th>Total view</th>
+                    <th>Control</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let book of listBook | searchPipe: searchText | paginate : { itemsPerPage: 3, currentPage: page }; index as i">
+                    <td>{{book?.title}}</td>
+                    <td>{{book?.genre}}</td>
+                    <td>{{book?.author}}</td>
+                    <td class="des">{{book?.description | slice:0:70}}</td>
+                    <td><img [src]="setUrlImage(book?.thumb)" alt=""></td>
+                    <td>{{book?.publication_date}}</td>
+                    <td>{{book?.totalPage}}</td>
+                    <td>{{book?.totalView}}</td>
+                    <td>
+                        <div class="control flex items-center justify-center">
+                            <button (click)="toggleUpdateBook(book._id, book)"><i class="fa-solid fa-pen"></i></button>
+                            <button (click)="deletBook(book._id)"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+<app-add-book></app-add-book>
+<app-update-book></app-update-book>

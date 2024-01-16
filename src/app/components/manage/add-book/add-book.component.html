@@ -1,0 +1,54 @@
+<div class="container" id="addBookComponent">
+    <div class="overlay" (click)="removeAddBook()">
+        <div class="content" (click)="clickIn($event)">
+            <div class="add-book-box">
+                <h4>Add Book</h4>
+                <div class="form-add">
+                    <form [formGroup]="addBookForm" (ngSubmit)="onCreatebook()">
+                        <div class="info">
+                            <label>Title</label>
+                            <input formControlName="title" type="text" required>
+                        </div>
+                        <div class="info">
+                            <label>Genre</label>
+                            <select formControlName="genre">
+                                <option *ngFor="let genre of listGenres" [value]="genre.title">{{genre.title}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="info">
+                            <label>Author</label>
+                            <input formControlName="author" type="text" required>
+                        </div>
+                        <div class="info">
+                            <label>Description</label>
+                            <textarea formControlName="description" required cols="10" rows="auto"></textarea>
+                        </div>
+                        <div class="info">
+                            <label>Publish year</label>
+                            <input formControlName="publication_date" type="text">
+                        </div>
+
+                        <div class="info">
+                            <label>Total page</label>
+                            <input formControlName="totalPage" type="text">
+                        </div>
+                        <div class="info">
+                            <label>Thumb</label>
+                            <input type="file" (change)="setThumb($event)" enctype="multipart/form-data">
+                        </div>
+                        <div class="info">
+                            <label>File Reader:</label>
+                            <input type="file" (change)="setFileReader($event)" enctype="multipart/form-data">
+                        </div>
+                        <div class="bnt-add-box">
+                            <button type="submit"><i class="fa-solid fa-circle-plus"></i>Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeAddBook()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+    </div>
+</div>

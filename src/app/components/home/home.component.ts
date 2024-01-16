@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/services/app.service';
 import { GenreService } from 'src/app/services/genre.service';
 
 @Component({
@@ -13,31 +14,41 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private genreService: GenreService
+    private genreService: GenreService,
+    private appService: AppService
   ) {
     this.genreService.getAllGenres().subscribe((res) => {
       if (res.status) {
         this.listGenres = res.data;
-
-        console.log(this.listGenres)
+        // console.log(this.listGenres)
       }
     }
     );
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    if (location.pathname === '/' || location.pathname === '/home') {
+      this.appService.sendStatusShowHeader(true);
+    }
   }
 
   getBookByGenre(genre: string) {
     this.router.navigate(
-      ['/books-by-genres'],
-      { queryParams: { genre: genre } }
+      ['/book-search'],
+      { queryParams: { query: genre } }
     )
   }
 
   setUrlImage(image: string) {
     return this.serverUrl + image;
+  }
+
+  viewAllBooks(string: string) {
+    this.router.navigate(
+      ['/book-search'],
+      { queryParams: { query: string } }
+    )
+    this.router.navigate(['/book-search']);
   }
 
 }

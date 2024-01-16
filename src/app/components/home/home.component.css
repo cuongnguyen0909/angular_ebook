@@ -1,43 +1,12 @@
-.container {
-  width: 100%;
-  padding: 0px 100px 50px 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.genres-area {
-  padding-top: 20px;
-  min-width: 1170px;
-  width: 1170px;
-}
-
-.genres-area h4 {
-  height: 67px;
-  font-size: 18px;
-  font-weight: 700;
-  margin-left: 10px;
-  letter-spacing: 1.5px;
-  font-family: Helvetica, sans-serif;
-  display: flex;
-  align-items: center;
-}
-
-.genres-area .list-genres {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-}
 
 .list-genres .genres {
   position: relative;
-  width: 270px;
-  height: 172px;
-  margin: 11px;
-  display: flex;
+  width: 100%;
+  height: 180px;
+  margin: 10px;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   cursor: pointer;
   box-shadow: 4px 23px 20px -25px rgba(37, 35, 35, 0.71);
   -webkit-box-shadow: 4px 23px 20px -25px rgba(37, 35, 35, 0.71);
@@ -52,8 +21,8 @@
   height: 100%;
 }
 
-.genres span {
-  width: 100%;
+span {
+  width: 285px;
   position: relative;
   display: flex;
   justify-content: center;

@@ -1,12 +1,24 @@
-<div class="container" *ngFor="let genre of listGenres; let i = index">
-    <div class="genres-area">
-        <h4>BROWSE GENRES</h4>
-        <div class="list-genres">
-            <div class="genres" (click)="getBookByGenre(genre.title)">
-                <a [routerLink]="['/book-by-genres']" [queryParams]="{genre: genre.title}">
-                    <img [src]="setUrlImage(genre.thumb)" class="object-contain" alt="">
-                    <span>{{genre?.title}}</span>
-                </a>
+<div class="flex flex-col justify-start items-start w-[1500px] pl-20 h-screen">
+    <div class="flex items-center">
+        <p class="flex justify-center font-medium text-[24px] p-6">LIST GENRES</p>
+        <p class="italic"></p>
+        <p class="italic cursor-pointer font-medium text-blue-600 hover:text-blue-700" (click)="viewAllBooks('')">(View
+            all books)
+        </p>
+    </div>
+    <div class="flex justify-center  w-full">
+        <div class="list-genres flex flex-wrap ">
+            <div class="flex " *ngFor="let genre of listGenres; let i = index" style="width: calc(100% /4);">
+                <div class="genres flex justify-center items-center" (click)="getBookByGenre(genre.title)">
+                    <a [routerLink]="['/book-by-genres']" [queryParams]="{genre: genre.title}">
+                        <img [src]="setUrlImage(genre.thumb)" class="object-contain" alt="">
+                        <span class="font-medium">
+                            <p class="text-gray-50">
+                                {{genre?.title}}
+                            </p>
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

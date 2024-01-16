@@ -1,0 +1,62 @@
+<div class="container font-medium" id="updateBookComponent">
+    <div class="overlay" (click)="removeUpdateBook()">
+        <div class="content" (click)="clickIn($event)">
+            <div class="update-book-box">
+                <h4>Update Book</h4>
+                <div class="form-update">
+                    <form [formGroup]="formUpdateBook" (ngSubmit)="onUpdate()">
+                        <div class="info">
+                            <label>Title</label>
+                            <input formControlName="title" type="text" required>
+                        </div>
+                        <div class="info">
+                            <div class="info">
+                                <label>Genre</label>
+                                <select formControlName="genre">
+                                    <option *ngFor="let genre of listGenres" [value]="genre.title">{{genre.title}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <label>Author</label>
+                            <input formControlName="author" type="text" required>
+                        </div>
+                        <div class="info">
+                            <label>Description</label>
+                            <textarea formControlName="description" required cols="10" rows="auto"></textarea>
+                        </div>
+                        <div class="info">
+                            <label>Publish year</label>
+                            <input formControlName="publication_date" type="text">
+                        </div>
+
+                        <div class=" info">
+                            <label>Total page</label>
+                            <input formControlName="totalPage" type="number">
+                        </div>
+                        <div class="info">
+                            <label>Thumb</label>
+                            <input type="file" (change)="selectFileImage($event)">
+                        </div>
+                        <!-- <div>
+                            <img class="w-[50px]" [src]="this.preview" alt="">
+                        </div> -->
+                        <div class="info">
+                            <label>File Reader:</label>
+                            <input type="file" (change)="setFileReader($event)">
+                        </div>
+                        <div class="bnt-update-box">
+                            <button type="submit">
+                                <i class="fa-solid fa-circle-plus">
+                                </i>Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="remove" (click)="removeUpdateBook()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+    </div>
+</div>

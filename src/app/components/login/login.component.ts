@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AppService } from 'src/app/services/app.service';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
@@ -11,7 +12,13 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
   showLoginForm: boolean = false;
-  formLogin!: FormGroup;
+  formLogin = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+  });
+  message: string = '';
+  logginFailed: boolean = false;
+  userData!: any;
   handleButtonClick(event: Event) {
     event.stopPropagation();
   }
@@ -20,57 +27,47 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private appService: AppService
+    private appService: AppService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.formLogin = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-    })
     this.appService.showLogginForm.subscribe((res: any): any => {
       this.showLoginForm = res;
     })
-    console.log(this.showLoginForm)
-  }
-
-  onLogin(): any {
-    if (this.formLogin.invalid) {
-      return Swal.fire({
-        title: 'Error!',
-        text: 'Please check your email and password again!',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      }).then((result): any => {
-        if (result.isConfirmed) {
-          return false;
-        }
-      })
-    }
-
-    this.authService.login(this.formLogin.value).subscribe((res: any): any => {
-      if (res.status) {
-        // console.log(res.userData)
-        //save token to local storage
-        this.router.navigate(['/home']);
-        localStorage.setItem('token', res.accessToken);
-        this.appService.sendStatusShowLoginForm(false);
-        this.appService.sendStatusLogin(true);
-        this.appService.sendUserData(res);
-        window.location.reload();
-      } else {
+    this.appService.userData.subscribe((res: any): any => {
+      console.log(res)
+      if (res) {
         return Swal.fire({
-          title: 'Error!',
-          text: 'Password or email is incorrect!',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        }).then((result): any => {
+          icon: 'success',
+          title: 'Đăng nhập thành công',
+          showConfirmButton: true,
+        }).then((result) => {
           if (result.isConfirmed) {
-            return false;
+            window.location.reload();
           }
         })
       }
+
     })
+  }
+
+  onLogin(): any {
+    this.authService.login(this.formLogin.value).subscribe({
+      next: (res: any) => {
+        localStorage.setItem('token', res.accessToken);
+        localStorage.setItem('user', JSON.stringify(res.userData));
+        localStorage.setItem('role', res.role);
+        this.appService.sendStatusShowLoginForm(false);
+        this.appService.sendStatusLogin(true);
+        this.appService.sendUserData(res);
+      },
+      error: (error) => {
+        console.error('Error logging in:', error);
+        this.message = 'Login failed. Please try again.'
+        this.logginFailed = true;
+      }
+    });
   }
 
   register(): any {
@@ -79,7 +76,8 @@ export class LoginComponent implements OnInit {
   }
 
   backToHome(): any {
-    this.router.navigate(['/home']);
     this.showLoginForm = false;
+    this.appService.sendStatusShowRegisterForm(false);
+    // window.location.reload();
   }
 }

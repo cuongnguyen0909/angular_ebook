@@ -1,0 +1,63 @@
+<div class="main">
+    <div class="sidebar">
+        <div class="title">
+            <i class="fa-solid fa-user-gear"></i>
+            <h4>Manager</h4>
+        </div>
+        <div class="control">
+            <ul>
+                <li>
+                    <a routerLink="/manage/admin/dashboard">
+                        <i class="fa-solid fa-gauge"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li>
+                    <a (click)="manageBooks()">
+                        <i class="fa-solid fa-book"></i>
+                        <p>Books</p>
+                    </a>
+                </li>
+
+                <li>
+                    <a routerLink="/manage/admin/genres">
+                        <i class="fa-solid fa-list"></i>
+                        <p>Genres</p>
+                    </a>
+                </li>
+
+                <li>
+                    <a routerLink="/manage/admin/users">
+                        <i class="fa-solid fa-user-group"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+
+                <li>
+                    <a (click)="clickBackHome()" routerLink="/home" style="position: relative;">
+                        <i class="fa-solid fa-home"></i>
+                        <i class="fa-solid fa-arrow-left"
+                            style="position: absolute; top: 50%; left: 20px; font-size: 13px; transform: translateY(-50%);"></i>
+                        <p>Home</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="account">
+            <button class="info" (click)="toggleLogin()">
+                <p>{{userData.name}}</p>
+                <i class="fa-solid fa-sort-up"></i>
+                <button class="signout" (click)="logout()">
+                    <p>Sign out</p>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </button>
+
+        </div>
+
+    </div>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</div>

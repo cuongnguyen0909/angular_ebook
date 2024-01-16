@@ -13,7 +13,15 @@ export class AppService {
   public showLogginForm = new BehaviorSubject<boolean>(false);
   public showRegiserForm = new BehaviorSubject<boolean>(false);
   public userData = new BehaviorSubject<any>(null);
-
+  public showHeader = new BehaviorSubject<boolean>(true);
+  public showBookDetail = new BehaviorSubject<any>(null);
+  public idBook = new BehaviorSubject<any>(null);
+  public bookList = new BehaviorSubject<any>(null);
+  public listGenres = new BehaviorSubject<any>(null);
+  public genreData = new BehaviorSubject<any>(null);
+  public userDataInAdmin = new BehaviorSubject<any>(null);
+  public isLoggedOutFromAdmin = new BehaviorSubject<boolean>(false);
+  public erroAddStatus = new BehaviorSubject<any>(null);
   constructor(
     private router: Router
   ) { }
@@ -42,4 +50,39 @@ export class AppService {
     this.readingBook.next(isReadingBook);
   }
 
+  public sendStatusShowHeader(isShowHeader: boolean) {
+    this.showHeader.next(isShowHeader);
+  }
+
+  public sendStatusShowBookDetail(bookDetail: any) {
+    this.showBookDetail.next(bookDetail);
+  }
+
+  public sendIdBook(idBook: any) {
+    this.idBook.next(idBook);
+  }
+
+  public sendBookList(bookList: any) {
+    this.bookList.next(bookList);
+  }
+
+  public sendListGenres(listGenres: any) {
+    this.listGenres.next(listGenres);
+  }
+
+  public sendGenreData(genreData: any) {
+    this.genreData.next(genreData);
+  }
+
+  public sendUserDataInAdmin(userDataInAdmin: any) {
+    this.userDataInAdmin.next(userDataInAdmin);
+  }
+
+  public sendStatusLogoutFromAdmin(isLoggedOutFromAdmin: boolean) {
+    this.isLoggedOutFromAdmin.next(isLoggedOutFromAdmin);
+  }
+
+  public sendErrorAddStatus(errorAddStatus: any) {
+    this.erroAddStatus.next(errorAddStatus);
+  }
 }

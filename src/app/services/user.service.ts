@@ -21,5 +21,23 @@ export class UserService {
     return this.http.get(this.REST_API_SERVER + 'current', this.httpOptions)
   }
 
+  getAllUsers(): Observable<any> {
+    return this.http.get(this.REST_API_SERVER, this.httpOptions)
+  }
 
+  updateByAdmin(id: any, data: any): Observable<any> {
+    return this.http.put(this.REST_API_SERVER + id, data, this.httpOptions)
+  }
+
+  updateCurrentUser(data: any): Observable<any> {
+    return this.http.put(this.REST_API_SERVER + 'current', data)
+  }
+
+  deleteUser(id: any): Observable<any> {
+    return this.http.delete(`${this.REST_API_SERVER}/${id}`, this.httpOptions)
+  }
+
+  changePassword(data: any): Observable<any> {
+    return this.http.put(this.REST_API_SERVER + 'changepassword', data, this.httpOptions)
+  }
 }

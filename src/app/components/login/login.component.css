@@ -3,11 +3,11 @@
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 741px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(110, 111, 111, 0.497);
+  background-color: #7276767f;
   z-index: 100;
   /* visibility: hidden; */
 }

@@ -28,6 +28,7 @@ export class BooksByGenresComponent implements OnInit {
     });
   }
   redirectToBookDetail(id: string) {
+    window.scroll(0, 0);
     this.router.navigate(['/book-detail', id]);
   }
 
